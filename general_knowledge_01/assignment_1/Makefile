@@ -14,12 +14,12 @@ static: $(STATIC_LIB)
 shared: $(SHARED_LIB)
 	$(CC) main.c -L. -lstrutils -o main_shared
 
-$(STATIC_LIB): strutils.c strutils.h
-	$(CC) $(CFLAGS) -c strutils.c -o strutils.o
+$(STATIC_LIB): bstrutils.c strutils.h
+	$(CC) $(CFLAGS) -c bstrutils.c -o strutils.o
 	ar rcs $@ strutils.o
 
-$(SHARED_LIB): strutils.c strutils.h
-	$(CC) $(CFLAGS) -fPIC -shared strutils.c -o $@
+$(SHARED_LIB): bstrutils.c strutils.h
+	$(CC) $(CFLAGS) -fPIC -shared bstrutils.c -o $@
 
 clean:
 	rm -f *.o *.a *.so main_static main_shared
