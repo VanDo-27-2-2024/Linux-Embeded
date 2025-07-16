@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <pthread.h>
 
+#define NUM_THREADS 3
 
 int counter = 0;
 pthread_mutex_t lock;
@@ -21,30 +23,30 @@ void* increase(void* arg)
 
 int main()
 {
-    pthread_t t1, t2, t3;
+    pthread_t thread_list[NUM_THREADS];
+    int rc;
 
-    if (pthread_create(&t1, NULL, increase, NULL) != 0)
-    {
-        perror("Failed to create thread 1");
-        return 1;
-    }
-
-    if (pthread_create(&t2, NULL, increase, NULL) != 0)
-    {
-        perror("Failed to create thread 1");
-        return 1;
-    }
-
-    if (pthread_create(&t3, NULL, increase, NULL) != 0)
-    {
-        perror("Failed to create thread 1");
-        return 1;
-    }
+	for (int i = 0; i < NUM_THREADS; i++)
+	{
+		rc = pthread_create(&thread_list[i], NULL, increase, NULL);
+		if (rc)
+		{
+			fprintf(stderr, "Error creating thread: %d\n", rc);
+			exit(EXIT_FAILURE);
+		}
+	}
 
 
-    pthread_join(t1, NULL);
-    pthread_join(t2, NULL);
-    pthread_join(t3, NULL);
+    for (int i = 0; i < NUM_THREADS; i++)
+	{
+		rc = pthread_join(thread_list[i], NULL);
+		if (rc)
+		{
+			fprintf(stderr, "Error join thread: %d\n", rc);
+			exit(EXIT_FAILURE);
+		}
+	}
+
     pthread_mutex_destroy(&lock);
 
     printf("Counter: %d\n", counter);
