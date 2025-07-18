@@ -51,7 +51,6 @@ int main(int argc, char **argv)
 {
     pthread_t readers[NUM_READERS], writers[NUM_WRITERS];
 	int reader_ids[NUM_READERS];
-	int writer_ids[NUM_WRITERS];
 	int rc;
 
     for (int i = 0; i < NUM_READERS; i++)
@@ -65,10 +64,10 @@ int main(int argc, char **argv)
 		}
     }
 
-	for (int i = 0; i < NUM_WRITERS; i++)
+	int i; // avoid stack aliasing
+	for (i = 0; i < NUM_WRITERS; i++)
 	{
-		writer_ids[i] = i;
-		rc = pthread_create(&writers[i], NULL, writer_job, &writer_ids[i]);
+		rc = pthread_create(&writers[i], NULL, writer_job, &i);
 		if (rc)
 		{
 			fprintf(stderr, "Error creating thread: %d\n", rc);
