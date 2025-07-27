@@ -73,25 +73,31 @@ int str_to_int(const char *str, int *out_num)
     if (str == NULL || out_num == NULL) return 0;
 
     // Skip leading whitespace
-    while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n') {
+    while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
+    {
         i++;
     }
 
     // Handle optional '+' or '-' sign
-    if (str[i] == '-') {
+    if (str[i] == '-')
+    {
         sign = -1;
         i++;
-    } else if (str[i] == '+') {
+    }
+    else if (str[i] == '+')
+    {
         i++;
     }
 
     // At least one digit required
-    if (str[i] < '0' || str[i] > '9') {
+    if (str[i] < '0' || str[i] > '9')
+    {
         return 0;
     }
 
     // Convert digits to integer
-    while (str[i] >= '0' && str[i] <= '9') {
+    while (str[i] >= '0' && str[i] <= '9')
+    {
         int digit = str[i] - '0';
 
         // Optional: Detect overflow (not implemented here for simplicity)
@@ -100,8 +106,10 @@ int str_to_int(const char *str, int *out_num)
     }
 
     // If trailing non-digit characters exist return fail
-    while (str[i] != '\0') {
-        if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n') {
+    while (str[i] != '\0')
+    {
+        if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
+        {
             return 0;
         }
         i++;
