@@ -3,8 +3,13 @@
 
 void str_reverse(char *str)
 {
-    int count = 0;
+    if (str == NULL)
+    {
+        printf("String is NULL\n");
+        return;
+    }
 
+    int count = 0;
     while (str[count] != '\0')
     {
         count++;
